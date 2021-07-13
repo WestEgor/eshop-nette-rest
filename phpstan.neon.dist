@@ -1,0 +1,9 @@
+parameters:
+  level: 8
+  paths:
+    - app/Entity
+    - app/Form
+    - app/Model
+    - app/Repository
+    - app/Security
+    - app/Service

@@ -1,0 +1,9 @@
+{block content}
+<h1 n:block="title">Můj blog</h1>
+	{foreach $users as $user}
+	<div class="post">
+		<div>{$user->username}</div>
+		<h2>{$user->password}</h2>
+	</div>
+	{/foreach}
+{/block}
