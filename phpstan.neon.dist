@@ -7,3 +7,5 @@ parameters:
     - app/Repository
     - app/Security
     - app/Service
+
+  checkMissingIterableValueType: false

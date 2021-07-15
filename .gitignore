@@ -1,4 +1,4 @@
-config/local.neon
+config/common.neon
 vendor/
 .idea/
 log/

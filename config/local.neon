@@ -1,0 +1,12 @@
+parameters:
+
+
+database:
+	dsn: 'mysql:host=127.0.0.1;dbname=eshop-nette-rest'
+	user: root
+	password: root
+
+services:
+    categoryDAO: App\Entity\CategoryDAO
+    userDAO: App\Entity\UserDAO
+    registrationFrom: App\Form\RegistrationForm

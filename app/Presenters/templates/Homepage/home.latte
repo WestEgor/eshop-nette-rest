@@ -1,0 +1,17 @@
+{block content}
+    <nav class="nav flex-column">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" n:href="Registration:home">Registration</a>
+            </li>
+        </ul>
+        {foreach $categories as $category}
+            <li class="nav-item">
+                <a class="nav-link">{$category->getName()}</a>
+            </li>
+        {/foreach}
+    </nav>
+{/block}
