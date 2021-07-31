@@ -13,48 +13,34 @@ class RegistrationForm
 {
 
     private Form $form;
-    private UserDAO $userDAO;
-
-    /**
-     * RegistrationForm constructor.
-     * @param UserDAO $userDAO
-     */
-    public function __construct(UserDAO $userDAO)
-    {
-        $this->userDAO = $userDAO;
-    }
-
 
     public function createRegistrationForm(): Form
     {
         $this->form = new Form();
-        $this->form->addText('username', 'Username:')
-            ->setRequired('Please enter your username.');
+        $this->form->addText('username', 'Uživatelské jméno')
+            ->setRequired('Zadejte prosím Vaší uživatelské jméno.');
 
-        $this->form->addPassword('password', 'Password:')
-            ->setRequired('Please enter your password.');
+
+        $passwordInput = $this->form->addPassword('password', 'Heslo')
+            ->setRequired('Zadejte prosím Vaší heslo.');
+
+        $this->form->addPassword('password_confirm', 'Potvrzení hesla')
+            ->setRequired('Pro potvrzení zadejte heslo.')
+            ->addRule(
+                $this->form::EQUAL,
+                'Nepodařilo potvrdit heslo. Hesla se neshodují.',
+                $passwordInput);
 
         $this->form->addEmail('email', 'Email:')
-            ->setRequired('Please enter your email');
+            ->setRequired('Zadejte prosím Váš email');
 
-        $this->form->addSubmit('Register', 'Registration');
-
-        $this->form->onSuccess[] = [$this, 'registrationFormSucceeded'];
+        $this->form->addSubmit('Register', 'Registrovat');
 
         return $this->form;
     }
 
-    public function registrationFormSucceeded(): Form
+    public function getForm(): Form
     {
         return $this->form;
-    }
-
-    public function registrationFormSuccess(Form $form): void
-    {
-        $values = $form->getValues();
-        $username = $values->username;
-        $password = (new Passwords)->hash($values->password);
-        $email = $values->email;
-        $this->userDAO->create(new User($username, $password, $email));
     }
 }

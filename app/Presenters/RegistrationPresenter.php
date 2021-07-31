@@ -38,10 +38,8 @@ class RegistrationPresenter extends Presenter
     public function createComponentRegistrationForm(): Form
     {
         $form = $this->registrationForm->createRegistrationForm();
+        $form->onSuccess[] = [$this, 'registrationFormSucceeded'];
 
-        $form->onSuccess[] = function () use ($form) {
-            $this->registrationForm->registrationFormSuccess($form);
-        };
         $form->onSuccess[] = function () {
             $this->redirect('Homepage:default');
         };
@@ -49,5 +47,13 @@ class RegistrationPresenter extends Presenter
         return $form;
     }
 
-
+    public function registrationFormSucceeded(): void
+    {
+        $values = $this->getComponent('registrationForm')->getValues();
+        $username = $values->username;
+        $password = (new Passwords)->hash($values->password);
+        $email = $values->email;
+        $this->userDAO->create(new User($username, $password, $email));
+        $this->flashMessage('Byl jste úspěšně registrován');
+    }
 }
