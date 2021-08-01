@@ -9,4 +9,5 @@ database:
 services:
     categoryDAO: App\Entity\CategoryDAO
     userDAO: App\Entity\UserDAO
-    registrationFrom: App\Form\RegistrationForm
+    # registrationFrom: App\Form\RegistrationForm
+    formFactory: App\Form\FormFactory

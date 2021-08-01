@@ -1,20 +1,15 @@
 <?php
 
-
 namespace App\Presenters;
 
 use App\Entity\UserDAO;
 use App\Form\FormFactory;
-use App\Form\RegistrationForm;
-use App\Model\User;
-use Closure;
-use Nette;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
-use Nette\Security\Passwords;
 
-class RegistrationPresenter extends Presenter
+class LogInPresenter extends Presenter
 {
+
     private FormFactory $formFactory;
     private UserDAO $userDAO;
 
@@ -33,28 +28,28 @@ class RegistrationPresenter extends Presenter
     public function startup()
     {
         parent::startup();
-        $this->template->setFile(__DIR__ . '/templates/Registration/default.latte');
+        $this->template->setFile(__DIR__ . '/templates/Login/default.latte');
     }
 
-    public function createComponentRegistrationForm(): Form
+    public function createComponentLogInForm(): Form
     {
-        $form = $this->formFactory->getCreationForm(FormFactory::REGISTRATION_FORM)->createForm();
-        $form->onSuccess[] = [$this, 'registrationFormSucceeded'];
+        $form = $this->formFactory->getCreationForm(FormFactory::LOG_IN_FORM)->createForm();
+        $form->onSuccess[] = [$this, 'logInFormSucceeded'];
 
-        $form->onSuccess[] = function () {
+        /*$form->onSuccess[] = function () {
             $this->redirect('Homepage:default');
-        };
+        };*/
 
         return $form;
     }
 
-    public function registrationFormSucceeded(): void
+    public function logInFormSucceeded(): void
     {
-        $values = $this->getComponent('registrationForm')->getValues();
+        $values = $this->getComponent('logInForm')->getValues();
         $username = $values->username;
-        $password = (new Passwords)->hash($values->password);
-        $email = $values->email;
-        $this->userDAO->create(new User($username, $password, $email));
+        $password = $values->password;
+
         $this->flashMessage('Byl jste úspěšně registrován');
     }
+
 }

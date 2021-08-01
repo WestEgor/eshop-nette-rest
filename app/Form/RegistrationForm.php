@@ -2,45 +2,34 @@
 
 namespace App\Form;
 
-use App\Entity\UserDAO;
 use Nette;
-use Nette\Application\UI\Form;
-use App\Model\User;
-use Nette\Security\Passwords;
+use Nette\Application\UI\Form as NetteForm;
 
-
-class RegistrationForm
+class RegistrationForm implements Form
 {
 
-    private Form $form;
-
-    public function createRegistrationForm(): Form
+    public function createForm(): NetteForm
     {
-        $this->form = new Form();
-        $this->form->addText('username', 'Uživatelské jméno')
+        $form = new NetteForm();
+        $form->addText('username', 'Uživatelské jméno')
             ->setRequired('Zadejte prosím Vaší uživatelské jméno.');
 
 
-        $passwordInput = $this->form->addPassword('password', 'Heslo')
+        $passwordInput = $form->addPassword('password', 'Heslo')
             ->setRequired('Zadejte prosím Vaší heslo.');
 
-        $this->form->addPassword('password_confirm', 'Potvrzení hesla')
+        $form->addPassword('password_confirm', 'Potvrzení hesla')
             ->setRequired('Pro potvrzení zadejte heslo.')
             ->addRule(
-                $this->form::EQUAL,
+                $form::EQUAL,
                 'Nepodařilo potvrdit heslo. Hesla se neshodují.',
                 $passwordInput);
 
-        $this->form->addEmail('email', 'Email:')
+        $form->addEmail('email', 'Email:')
             ->setRequired('Zadejte prosím Váš email');
 
-        $this->form->addSubmit('Register', 'Registrovat');
+        $form->addSubmit('Register', 'Registrovat');
 
-        return $this->form;
-    }
-
-    public function getForm(): Form
-    {
-        return $this->form;
+        return $form;
     }
 }
